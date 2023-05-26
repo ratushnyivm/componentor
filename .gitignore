@@ -1,0 +1,10 @@
+.idea/
+.venv/
+.pytest_cache/
+__pycache__/
+htmlcov/
+
+.env
+.coverage
+*.sqlite3
+coverage.xml
