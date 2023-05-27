@@ -39,7 +39,7 @@
       </div>
 
       <!--Part material-->
-      <div class="mb-3">
+      <div class="mb-4">
         {% if form.material.errors %}
           <select class="form-select is-invalid" name="{{ form.material.name }}">
             {% for choice in form.material.field.choices %}
@@ -61,6 +61,7 @@
               {% endif %}
             {% endfor %}
           </select>
+          <div class="form-text">Select material from the list</div>
         {% endif %}
       </div>
 
