@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Part detail | Componentor
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+
+    <h1 class="display-6 my-3">View part</h1>
+
+      <div class="card bg-light">
+
+        <div class="card-header">
+          <div class="container px-1">
+            <div class="row row-cols-auto p-1">
+              <div class="col-xxl-10 col-sm-12 col-12">
+                <h2>{{ part.designation }} - {{ part.name }}</h2>
+              </div>
+              <div class="col-xxl-1 mb-1">
+                <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_update' part.id %}" role="button">
+                  <i class="bi bi-clipboard-plus mb-2"></i> Update
+                </a>
+              </div>
+              <div class="col-xxl-1 mb-1">
+                <a class="btn btn-outline-danger icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_delete' part.id %}" role="button">
+                  <i class="bi bi-clipboard-x mb-2"></i> Delete
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="container">
+            <div class="row p-1 border-bottom">
+              <div class="col">Designation</div>
+              <div class="col">{{ part.designation }}</div>
+            </div>
+            <div class="row p-1 border-bottom">
+              <div class="col">Name</div>
+              <div class="col">{{ part.name }}</div>
+            </div>
+            <div class="row p-1 border-bottom">
+              <div class="col">Material</div>
+              <div class="col" style="--bs-link-color-rgb: 0, 0, 0;">
+                <a class="icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-link-hover-color-rgb: 10, 140, 25;" href="{% url 'materials:material_detail' part.material.id %}">
+                  {{ part.material }} <i class="bi bi-info-square mb-2"></i>
+                </a>
+              </div>
+            </div>
+            <div class="row p-1 border-bottom">
+              <div class="col">Creation date</div>
+              <div class="col">{{ part.created|date:"d.m.Y H:i" }}</div>
+            </div>
+            <div class="row p-1">
+              <div class="col">Date of change</div>
+              <div class="col">{{ part.updated|date:"d.m.Y H:i" }}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+{% endblock %}

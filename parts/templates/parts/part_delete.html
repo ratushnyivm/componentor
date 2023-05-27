@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Part delete | Componentor
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+
+    <h1 class="display-6 my-3">Part delete</h1>
+
+    <form action="{% url 'parts:part_delete' part.id %}" method="post">
+      {% csrf_token %}
+
+      <p class="fs-4 fw-light">Are you sure you want to delete part <b class="fw-medium">"{{ part }}"</b>?</p>
+
+      <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_detail' part.id %}" role="button">
+        <i class="bi bi-arrow-left-square mb-2"></i> Back
+      </a>
+      <button class="btn btn-outline-danger icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
+        Yes, delete <i class="bi bi-arrow-right-square mb-2"></i>
+      </button>
+    </form>
+
+  </div>
+{% endblock %}

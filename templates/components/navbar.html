@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ps-3">
+
+  <a href="{% url 'home' %}" class="navbar-brand">
+    <img src="https://cdn.jim-nielsen.com/macos/512/omnigraffle-7-2022-10-17.png" width="30" height="30" alt="logo" class="align-top">
+    Componentor
+  </a>
+
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a href="{% url 'materials:material_list' %}" class="nav-link">Materials</a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'parts:part_list' %}" class="nav-link">Parts</a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'assemblies:assembly_list' %}" class="nav-link">Assemblies</a>
+      </li>
+    </ul>
+  </div>
+
+</nav>

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Material list | Componentor
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+
+    <h1 class="display-6 my-3">Materials</h1>
+
+    <div class="container px-0 mb-4">
+      <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'materials:material_create' %}" role="button">
+        <i class="bi bi-plus-square mb-2"></i> Add new material
+      </a>
+    </div>
+
+    <form role="search" method="get">
+      <div class="d-flex mb-4">
+        {% if form.name.value %}
+          <input class="form-control flex-grow-1 me-2" type="search" name="name" placeholder="{{ form.name.label }}" aria-label="Search" value="{{ form.name.value }}">
+        {% else %}
+          <input class="form-control flex-grow-1 me-2" type="search" name="name" placeholder="{{ form.name.label }}" aria-label="Search">
+        {% endif %}
+        <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" type="submit">
+          <i class="bi bi-search mb-2"></i> Search
+        </button>
+      </div>
+      {{ form.errors }}
+    </form>
+
+    <div class="card border border-1 border-secondary-subtle rounded-1.0">
+      <div class="table-responsive">
+        <table class="table table-hover rounded-1 overflow-hidden my-0">
+
+          <thead class="table-secondary">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Creation date</th>
+              <th>Date of change</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for material in materials %}
+              <!--Сделать всю строку ссылкой-->
+              <!--<tr onclick="window.location.href='{% url 'materials:material_detail' material.id %}'; return false" style="cursor: pointer;">-->
+              <tr>
+                <td>{{ material.id }}</td>
+                <td style="--bs-link-color-rgb: 0, 0, 0;">
+                  <a class="icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-link-hover-color-rgb: 10, 140, 25;" href="{% url 'materials:material_detail' material.id %}">
+                    {{ material.name }} <i class="bi bi-info-square mb-2"></i>
+                  </a>
+                </td>
+                <td>{{ material.created|date:"d.m.Y H:i" }}</td>
+                <td>{{ material.updated|date:"d.m.Y H:i" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

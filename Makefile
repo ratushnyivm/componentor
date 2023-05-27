@@ -8,3 +8,6 @@ start:
 
 lint:
 	poetry run flake8 .
+
+test:
+	${MANAGE} test
