@@ -4,10 +4,11 @@ on: [push, pull_request]
 
 env:
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
 jobs:
   tests:
-    name: Run flake8
+    name: Run linter and tests
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -15,7 +16,8 @@ jobs:
         python-version: [ 3.11 ]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check-out repo
+        uses: actions/checkout@v3
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -31,3 +33,13 @@ jobs:
       - name: Run linter
         run: |
           make lint
+
+      - name: Run tests
+        run: |
+          make test
+
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v4.0.0
+        with:
+          coverageCommand: make test-coverage
+          debug: true

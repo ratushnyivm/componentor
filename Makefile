@@ -11,3 +11,11 @@ lint:
 
 test:
 	${MANAGE} test
+
+test-coverage:
+	poetry run coverage run manage.py test
+	poetry run coverage xml --omit=*/tests/*,*tests.py,*/migrations/*,*__init__.py,*settings.py,*manage.py
+	poetry run coverage report --omit=*/tests/*,*tests.py,*/migrations/*,*__init__.py,*settings.py,*manage.py
+
+shell:
+	${MANAGE} shell
