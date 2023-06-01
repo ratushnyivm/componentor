@@ -12,31 +12,110 @@
     <form method="post">
       {% csrf_token %}
 
-      <!--Assembly designation-->
-      <div class="form-floating mb-3">
-        {% if form.designation.errors %}
-          <input type="text" class="form-control is-invalid" placeholder='Designation' name="designation" value="{{ form.designation.value }}" required>
-          <label>{{ form.designation.label_tag }}</label>
-          <div class="invalid-feedback">{{ form.designation.errors }}</div>
-        {% else %}
-          <input type="text" class="form-control" placeholder='Designation' name="designation" value="{{ assembly.designation }}" required>
-          <label>{{ form.designation.label_tag }}</label>
-          <div class="form-text">{{ form.designation.help_text }}</div>
-        {% endif %}
-      </div>
+      <!--main form start-->
+      <div class="border rounded p-3 mb-3 bg-body-tertiary">
 
-      <!--Assembly name-->
-      <div class="form-floating mb-3">
-        {% if form.name.errors %}
-          <input type="text" class="form-control is-invalid" placeholder='Name' name="name" value="{{ form.name.value }}" required>
-          <label>{{ form.name.label_tag }}</label>
-          <div class="invalid-feedback">{{ form.name.errors }}</div>
-        {% else %}
-          <input type="text" class="form-control" placeholder='Name' name="name" value="{{ assembly.name }}" required>
-          <label>{{ form.name.label_tag }}</label>
-          <div class="form-text">{{ form.name.help_text }}</div>
-        {% endif %}
+        <!--Assembly designation-->
+        <div class="form-floating mb-3">
+          {% if form.designation.errors %}
+            <input type="text" class="form-control is-invalid" placeholder='Designation' name="designation" value="{{ form.designation.value }}" required>
+            <label>{{ form.designation.label_tag }}</label>
+            <div class="invalid-feedback">{{ form.designation.errors }}</div>
+          {% else %}
+            <input type="text" class="form-control" placeholder='Designation' name="designation" value="{{ assembly.designation }}" required>
+            <label>{{ form.designation.label_tag }}</label>
+            <div class="form-text">{{ form.designation.help_text }}</div>
+          {% endif %}
+        </div>
+
+        <!--Assembly name-->
+        <div class="form-floating">
+          {% if form.name.errors %}
+            <input type="text" class="form-control is-invalid" placeholder='Name' name="name" value="{{ form.name.value }}" required>
+            <label>{{ form.name.label_tag }}</label>
+            <div class="invalid-feedback">{{ form.name.errors }}</div>
+          {% else %}
+            <input type="text" class="form-control" placeholder='Name' name="name" value="{{ assembly.name }}" required>
+            <label>{{ form.name.label_tag }}</label>
+            <div class="form-text">{{ form.name.help_text }}</div>
+          {% endif %}
+        </div>
+
       </div>
+      <!--main form end-->
+
+      <!--inline form start-->
+      <div class="border rounded p-3 mb-3 table-responsive bg-body-tertiary">
+        {% with named_formsets.parts as formset %}
+          {{ formset.management_form }}
+
+          <script type="text/html" id="parts-template">
+            <tr id="parts-__prefix__" class="hide_all">
+              {% for fields in formset.empty_form.hidden_fields %}
+                {{ fields }}
+              {% endfor %}
+
+              {% for fields in formset.empty_form.visible_fields %}
+                <td>{{ fields }}</td>
+              {% endfor %}
+            </tr>
+          </script>
+
+          <table class="table">
+
+            <thead>
+              <tr>
+                <th>Part</th>
+                <th>Quantity</th>
+                <th>Delete?</th>
+              </tr>
+            </thead>
+
+            <tbody id="item-parts">
+
+              {% for error in formset.non_form_errors %}
+                <span style="color: red">{{ error }}</span>
+              {% endfor %}
+
+              {% for formss in formset %}
+                {{ formss.management_form }}
+
+                <tr id="parts-{{ forloop.counter0 }}" class="hide_all align-middle">
+
+                  {{ formss.id }}
+
+<!--                  {% for field in formss.visible_fields %}-->
+<!--                    <td>-->
+<!--                      {{ field }}-->
+<!--                      {% for error in field.errors %}-->
+<!--                        <span style="color: red">{{ error }}</span>-->
+<!--                      {% endfor %}-->
+<!--                      {% comment %} {{ field.DELETE }} {% endcomment %}-->
+<!--                    </td>-->
+<!--                  {% endfor %}-->
+
+                  <td>{{ formss.visible_fields.0 }}</td>
+                  <td>
+                    {{ formss.visible_fields.1 }}
+                    {% for error in formss.visible_fields.1.errors %}
+                      <span style="color: red">{{ error }}</span>
+                    {% endfor %}
+                  </td>
+                  <td class="text-center">{{ formss.visible_fields.2 }}</td>
+
+                </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+          <a href="#" id="add-parts-button" class="btn btn-secondary add-parts" style="width:100%">Add More</a>
+
+        {% endwith %}
+      </div>
+      <!--inline form end-->
 
       <!--Buttons-->
       {% if assembly.id %}
@@ -57,5 +136,33 @@
 
     </form>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.js" integrity="sha256-7GO+jepT9gJe9LB4XFf8snVOjX3iYNb0FHYr5LI1N5c=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+      // when user clicks add more btn of parts
+        $('.add-parts').click(function(ev) {
+            ev.preventDefault();
+            var count = $('#item-parts').children().length;
+            var tmplMarkup = $('#parts-template').html();
+            var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+            $('#item-parts').append(compiledTmpl);
+            $('.form-select').select2();
+
+            // update form count
+            $('#id_parts-TOTAL_FORMS').attr('value', count+1);
+        });
+      });
+    </script>
+
   </div>
 {% endblock %}
+
+<!--                      {% if field.widget_type == 'select' %}-->
+<!--                        <select class="form-select" name="{{ field.name }}">-->
+<!--                        {% for id, name in field.field.choices %}-->
+<!--                          {{ id }} - {{ name }}-->
+<!--                          <option value="{{ id }}">{{ name }}</option>-->
+<!--                        {% endfor%}-->
+<!--                        </select>-->
+<!--                      {% endif %}-->

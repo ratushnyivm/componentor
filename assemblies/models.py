@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from parts.models import Part
 
@@ -38,8 +39,17 @@ class AssemblyPart(models.Model):
         on_delete=models.PROTECT,
         verbose_name='Part',
     )
-    part_count = models.PositiveIntegerField('Quantity', default=1)
+    part_count = models.IntegerField(
+        'Quantity',
+        default=1,
+        validators=[MinValueValidator(1)])
 
     class Meta:
         verbose_name = 'Part in assembly'
         verbose_name_plural = 'Parts in assembly'
+        constraints = [
+            models.UniqueConstraint(
+                fields=('assembly', 'part'),
+                name='unique_part_in_assembly'
+            )
+        ]

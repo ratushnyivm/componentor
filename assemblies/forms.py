@@ -2,7 +2,7 @@ import re
 
 from django import forms
 
-from .models import Assembly
+from .models import Assembly, AssemblyPart
 
 
 class AssemblySearchForm(forms.Form):
@@ -42,4 +42,25 @@ class AssemblyCreateAndUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Assembly
+        fields = ('designation', 'name')
+
+
+class PartForm(forms.ModelForm):
+
+    class Meta:
+        model = AssemblyPart
         fields = '__all__'
+        widgets = {
+            'part': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+            'part_count': forms.NumberInput(
+                attrs={'class': 'form-control'}
+            )
+        }
+
+
+PartFormset = forms.models.inlineformset_factory(
+    Assembly, AssemblyPart, form=PartForm,
+    extra=5, can_delete=True, can_delete_extra=True
+)
