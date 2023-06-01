@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 from django.views import generic
-
-from .forms import MaterialCreateAndUpdateForm, MaterialSearchForm
-from .models import Material
+from materials.forms import MaterialCreateAndUpdateForm, MaterialSearchForm
+from materials.models import Material
 
 
 class MaterialListView(generic.ListView):

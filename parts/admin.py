@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from .models import Part
+from parts.models import Part
 
 
 @admin.register(Part)

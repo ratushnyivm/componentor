@@ -1,8 +1,7 @@
 import re
 
 from django import forms
-
-from .models import Part
+from parts.models import Part
 
 
 class PartSearchForm(forms.Form):

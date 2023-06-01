@@ -1,8 +1,7 @@
 import re
 
+from assemblies.models import Assembly, AssemblyPart
 from django import forms
-
-from .models import Assembly, AssemblyPart
 
 
 class AssemblySearchForm(forms.Form):

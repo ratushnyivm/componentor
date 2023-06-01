@@ -1,7 +1,6 @@
 import factory
+from assemblies.models import Assembly
 from faker import Factory
-
-from .models import Assembly
 
 factory_en = Factory.create()
 

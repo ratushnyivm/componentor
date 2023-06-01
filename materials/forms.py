@@ -1,8 +1,7 @@
 import re
 
 from django import forms
-
-from .models import Material
+from materials.models import Material
 
 
 class MaterialSearchForm(forms.Form):

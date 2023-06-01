@@ -1,6 +1,5 @@
+from assemblies.models import Assembly, AssemblyPart
 from django.contrib import admin
-
-from .models import Assembly, AssemblyPart
 
 
 class AssemblyPartInline(admin.TabularInline):

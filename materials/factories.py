@@ -1,7 +1,6 @@
 import factory
 from faker import Factory
-
-from .models import Material
+from materials.models import Material
 
 factory_en = Factory.create()
 
