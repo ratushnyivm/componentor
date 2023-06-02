@@ -18,11 +18,13 @@
         <!--Assembly designation-->
         <div class="form-floating mb-3">
           {% if form.designation.errors %}
-            <input type="text" class="form-control is-invalid" placeholder='Designation' name="designation" value="{{ form.designation.value }}" required>
+            <input type="text" class="form-control is-invalid" placeholder='Designation'
+                   name="designation" value="{{ form.designation.value }}" required>
             <label>{{ form.designation.label_tag }}</label>
             <div class="invalid-feedback">{{ form.designation.errors }}</div>
           {% else %}
-            <input type="text" class="form-control" placeholder='Designation' name="designation" value="{{ assembly.designation }}" required>
+            <input type="text" class="form-control" placeholder='Designation'
+                   name="designation" value="{{ assembly.designation }}" required>
             <label>{{ form.designation.label_tag }}</label>
             <div class="form-text">{{ form.designation.help_text }}</div>
           {% endif %}
@@ -31,11 +33,13 @@
         <!--Assembly name-->
         <div class="form-floating">
           {% if form.name.errors %}
-            <input type="text" class="form-control is-invalid" placeholder='Name' name="name" value="{{ form.name.value }}" required>
+            <input type="text" class="form-control is-invalid" placeholder='Name'
+                   name="name" value="{{ form.name.value }}" required>
             <label>{{ form.name.label_tag }}</label>
             <div class="invalid-feedback">{{ form.name.errors }}</div>
           {% else %}
-            <input type="text" class="form-control" placeholder='Name' name="name" value="{{ assembly.name }}" required>
+            <input type="text" class="form-control" placeholder='Name'
+                   name="name" value="{{ assembly.name }}" required>
             <label>{{ form.name.label_tag }}</label>
             <div class="form-text">{{ form.name.help_text }}</div>
           {% endif %}
@@ -50,14 +54,21 @@
           {{ formset.management_form }}
 
           <script type="text/html" id="parts-template">
-            <tr id="parts-__prefix__" class="hide_all">
+            <tr id="parts-__prefix__" class="hide_all align-middle">
               {% for fields in formset.empty_form.hidden_fields %}
                 {{ fields }}
               {% endfor %}
 
-              {% for fields in formset.empty_form.visible_fields %}
-                <td>{{ fields }}</td>
-              {% endfor %}
+              <td>{{ formset.empty_form.visible_fields.0 }}</td>
+              <td>
+                {{ formset.empty_form.visible_fields.1 }}
+                {% for error in formset.empty_form.visible_fields.1.errors %}
+                  <span style="color: red">{{ error }}</span>
+                {% endfor %}
+              </td>
+              <td class="text-center" style="scale:1.2">
+                {{ formset.empty_form.visible_fields.2 }}
+              </td>
             </tr>
           </script>
 
@@ -65,9 +76,9 @@
 
             <thead>
               <tr>
-                <th>Part</th>
-                <th>Quantity</th>
-                <th>Delete?</th>
+                <th class="display-6" style="font-size:1.5rem">Part</th>
+                <th class="display-6" style="font-size:1.5rem">Quantity</th>
+                <th class="display-6 text-center" style="font-size:1.5rem">Delete?</th>
               </tr>
             </thead>
 
@@ -81,27 +92,16 @@
                 {{ formss.management_form }}
 
                 <tr id="parts-{{ forloop.counter0 }}" class="hide_all align-middle">
-
                   {{ formss.id }}
 
-<!--                  {% for field in formss.visible_fields %}-->
-<!--                    <td>-->
-<!--                      {{ field }}-->
-<!--                      {% for error in field.errors %}-->
-<!--                        <span style="color: red">{{ error }}</span>-->
-<!--                      {% endfor %}-->
-<!--                      {% comment %} {{ field.DELETE }} {% endcomment %}-->
-<!--                    </td>-->
-<!--                  {% endfor %}-->
-
                   <td>{{ formss.visible_fields.0 }}</td>
-                  <td>
+                  <td style="width:100px">
                     {{ formss.visible_fields.1 }}
                     {% for error in formss.visible_fields.1.errors %}
                       <span style="color: red">{{ error }}</span>
                     {% endfor %}
                   </td>
-                  <td class="text-center">{{ formss.visible_fields.2 }}</td>
+                  <td class="text-center" style="scale:1.2">{{ formss.visible_fields.2 }}</td>
 
                 </tr>
 
@@ -111,7 +111,8 @@
 
           </table>
 
-          <a href="#" id="add-parts-button" class="btn btn-secondary add-parts" style="width:100%">Add More</a>
+          <a href="#" id="add-parts-button" class="btn btn-secondary add-parts"
+             style="width:100%">Add More</a>
 
         {% endwith %}
       </div>
@@ -119,25 +120,34 @@
 
       <!--Buttons-->
       {% if assembly.id %}
-        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'assemblies:assembly_detail' assembly.id %}" role="button">
+        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+           style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+           href="{% url 'assemblies:assembly_detail' assembly.id %}" role="button">
           <i class="bi bi-arrow-left-square mb-2"></i> Back
         </a>
       {% else %}
-        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'assemblies:assembly_list' %}" role="button">
+        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+           style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+           href="{% url 'assemblies:assembly_list' %}" role="button">
           <i class="bi bi-arrow-left-square mb-2"></i> Back
         </a>
       {% endif %}
       <button class="btn btn-outline-dark" type="reset">
         <i class="bi bi-x-square mb-2"></i> Clear
       </button>
-      <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
+      <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+              style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
         {{ button }} <i class="bi bi-arrow-right-square mb-2"></i>
       </button>
 
     </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.slim.js" integrity="sha256-7GO+jepT9gJe9LB4XFf8snVOjX3iYNb0FHYr5LI1N5c=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.js"
+            integrity="sha256-7GO+jepT9gJe9LB4XFf8snVOjX3iYNb0FHYr5LI1N5c="
+            crossorigin="anonymous"></script>
     <script>
       $(document).ready(function() {
       // when user clicks add more btn of parts
@@ -157,12 +167,3 @@
 
   </div>
 {% endblock %}
-
-<!--                      {% if field.widget_type == 'select' %}-->
-<!--                        <select class="form-select" name="{{ field.name }}">-->
-<!--                        {% for id, name in field.field.choices %}-->
-<!--                          {{ id }} - {{ name }}-->
-<!--                          <option value="{{ id }}">{{ name }}</option>-->
-<!--                        {% endfor%}-->
-<!--                        </select>-->
-<!--                      {% endif %}-->

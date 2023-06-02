@@ -9,49 +9,116 @@
 
     <h1 class="display-6 my-3">View assembly</h1>
 
-      <div class="card bg-light">
+    <!--assembly info start-->
+    <div class="card bg-light mb-3">
 
-        <div class="card-header">
-          <div class="container px-1">
-            <div class="row row-cols-auto p-1">
-              <div class="col-xxl-10 col-sm-12 col-12">
-                <h2>{{ assembly.designation }} - {{ assembly.name }}</h2>
-              </div>
-              <div class="col-xxl-1 mb-1">
-                <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'assemblies:assembly_update' assembly.id %}" role="button">
-                  <i class="bi bi-clipboard-plus mb-2"></i> Update
-                </a>
-              </div>
-              <div class="col-xxl-1 mb-1">
-                <a class="btn btn-outline-danger icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'assemblies:assembly_delete' assembly.id %}" role="button">
-                  <i class="bi bi-clipboard-x mb-2"></i> Delete
-                </a>
-              </div>
+      <div class="card-header">
+        <div class="container px-1">
+          <div class="row row-cols-auto p-1">
+            <div class="col-xxl-10 col-sm-12 col-12">
+              <h2>{{ assembly.designation }} - {{ assembly.name }}</h2>
+            </div>
+            <div class="col-xxl-1 mb-1">
+              <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+                 style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+                 href="{% url 'assemblies:assembly_update' assembly.id %}" role="button">
+                <i class="bi bi-clipboard-plus mb-2"></i> Update
+              </a>
+            </div>
+            <div class="col-xxl-1 mb-1">
+              <a class="btn btn-outline-danger icon-link icon-link-hover link-underline link-underline-opacity-0"
+                 style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+                 href="{% url 'assemblies:assembly_delete' assembly.id %}" role="button">
+                <i class="bi bi-clipboard-x mb-2"></i> Delete
+              </a>
             </div>
           </div>
         </div>
-
-        <div class="card-body">
-          <div class="container">
-            <div class="row p-1 border-bottom">
-              <div class="col">Designation</div>
-              <div class="col">{{ assembly.designation }}</div>
-            </div>
-            <div class="row p-1 border-bottom">
-              <div class="col">Name</div>
-              <div class="col">{{ assembly.name }}</div>
-            </div>
-            <div class="row p-1 border-bottom">
-              <div class="col">Creation date</div>
-              <div class="col">{{ assembly.created|date:"d.m.Y H:i" }}</div>
-            </div>
-            <div class="row p-1">
-              <div class="col">Date of change</div>
-              <div class="col">{{ assembly.updated|date:"d.m.Y H:i" }}</div>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <div class="card-body">
+        <div class="container">
+          <div class="row p-1 border-bottom">
+            <div class="col">Designation</div>
+            <div class="col">{{ assembly.designation }}</div>
+          </div>
+          <div class="row p-1 border-bottom">
+            <div class="col">Name</div>
+            <div class="col">{{ assembly.name }}</div>
+          </div>
+          <div class="row p-1 border-bottom">
+            <div class="col">Creation date</div>
+            <div class="col">{{ assembly.created|date:"d.m.Y H:i" }}</div>
+          </div>
+          <div class="row p-1">
+            <div class="col">Date of change</div>
+            <div class="col">{{ assembly.updated|date:"d.m.Y H:i" }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--assembly info end-->
+
+    <!--assembly composition start-->
+    <div class="border rounded p-3 mb-3 table-responsive bg-body-tertiary">
+
+      <form role="search" method="get">
+        <div class="d-flex mb-4">
+          {% if form.search_query.value %}
+            <input class="form-control flex-grow-1 me-2" type="search" name="search_query"
+                   placeholder="{{ form.search_query.label }}" aria-label="Search"
+                   value="{{ form.search_query.value }}">
+          {% else %}
+            <input class="form-control flex-grow-1 me-2" type="search" name="search_query"
+                   placeholder="{{ form.search_query.label }}" aria-label="Search">
+          {% endif %}
+          <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+                  style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" type="submit">
+            <i class="bi bi-search mb-2"></i> Search
+          </button>
+        </div>
+        {{ form.errors }}
+      </form>
+
+      <table class="table table-hover">
+
+        <thead>
+          <tr>
+            <th class="display-6" style="font-size:1.5rem; font-weight:400">Designation</th>
+            <th class="display-6" style="font-size:1.5rem; font-weight:400">Name</th>
+            <th class="display-6" style="font-size:1.5rem; font-weight:400">Material</th>
+            <th class="display-6" style="font-size:1.5rem; font-weight:400">Quantity</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for part in parts %}
+          <tr>
+            <td style="--bs-link-color-rgb: 0, 0, 0;">
+              <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
+                 style="--bs-link-hover-color-rgb: 10, 140, 25;"
+                 href="{% url 'parts:part_detail' part.part.id %}">
+                {{ part.part.designation }} <i class="bi bi-info-square mb-2"></i>
+              </a>
+            </td>
+            <td>{{ part.part.name }}</td>
+            <td style="--bs-link-color-rgb: 0, 0, 0;">
+              <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
+                 style="--bs-link-hover-color-rgb: 10, 140, 25;"
+                 href="{% url 'materials:material_detail' part.part.material.id %}">
+                {{ part.part.material }} <i class="bi bi-info-square mb-2"></i>
+              </a>
+            </td>
+            <td>{{ part.part_count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+
+    </div>
+    <!--assembly composition end-->
+
   </div>
 {% endblock %}

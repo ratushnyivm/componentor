@@ -1,3 +1,4 @@
+import materials.models
 from assemblies import forms
 from assemblies.models import Assembly
 from django.shortcuts import redirect
@@ -5,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 
-class AssemblyInlineForm:
+class AssemblyInline:
     form_class = forms.AssemblyCreateAndUpdateForm
     model = Assembly
     template_name = 'assemblies/assembly_form.html'
@@ -35,10 +36,11 @@ class AssemblyInlineForm:
             part.save()
 
 
-class NewAssemblyCreateView(AssemblyInlineForm, generic.CreateView):
+class AssemblyCreateView(AssemblyInline, generic.CreateView):
+    """Generic class-based view for creating assembly."""
 
     def get_context_data(self, **kwargs):
-        context = super(NewAssemblyCreateView, self).get_context_data(**kwargs)
+        context = super(AssemblyCreateView, self).get_context_data(**kwargs)
         context['named_formsets'] = self.get_named_formsets()
         context.update(
             {
@@ -61,10 +63,11 @@ class NewAssemblyCreateView(AssemblyInlineForm, generic.CreateView):
             }
 
 
-class NewAssemblyUpdateView(AssemblyInlineForm, generic.UpdateView):
+class AssemblyUpdateView(AssemblyInline, generic.UpdateView):
+    """Generic class-based view for updating assembly."""
 
     def get_context_data(self, **kwargs):
-        context = super(NewAssemblyUpdateView, self).get_context_data(**kwargs)
+        context = super(AssemblyUpdateView, self).get_context_data(**kwargs)
         context['named_formsets'] = self.get_named_formsets()
         context.update(
             {
@@ -112,33 +115,23 @@ class AssemblyDetailView(generic.DetailView):
     model = Assembly
     template_name = 'assemblies/assembly_detail.html'
 
+    def get_parts_in_assembly(self):
+        search_query = self.request.GET.get('search_query', '')
+        all_material_parts = materials.models.Material.objects\
+            .filter(name__icontains=search_query)\
+            .values_list('parts', flat=True)
+        material_parts_id_in_assembly = self.object.assemblypart_set\
+            .values_list('part', flat=True)\
+            .filter(part__in=all_material_parts)
+        parts_in_assembly = self.object.assemblypart_set\
+            .filter(part__in=material_parts_id_in_assembly)
+        return parts_in_assembly
 
-class AssemblyCreateView(generic.CreateView):
-    """Generic class-based view for creating assembly."""
-
-    model = Assembly
-    template_name = 'assemblies/assembly_form.html'
-    form_class = forms.AssemblyCreateAndUpdateForm
-    success_url = reverse_lazy('assemblies:assembly_list')
-    extra_context = {
-        'header': 'Assembly create',
-        'title': 'Assembly create',
-        'button': 'Add',
-    }
-
-
-class AssemblyUpdateView(generic.UpdateView):
-    """Generic class-based view for updating assembly."""
-
-    model = Assembly
-    template_name = 'assemblies/assembly_form.html'
-    form_class = forms.AssemblyCreateAndUpdateForm
-    success_url = reverse_lazy('assemblies:assembly_list')
-    extra_context = {
-        'header': 'Assembly update',
-        'title': 'Assembly update',
-        'button': 'Update',
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = forms.AssemblyPartSearchForm(self.request.GET or None)
+        context['parts'] = self.get_parts_in_assembly()
+        return context
 
 
 class AssemblyDeleteView(generic.DeleteView):

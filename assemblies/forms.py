@@ -11,6 +11,13 @@ class AssemblySearchForm(forms.Form):
     )
 
 
+class AssemblyPartSearchForm(forms.Form):
+    search_query = forms.CharField(
+        label='Search by material',
+        required=False,
+    )
+
+
 class AssemblyCreateAndUpdateForm(forms.ModelForm):
 
     designation = forms.CharField(
