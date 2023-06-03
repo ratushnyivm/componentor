@@ -1,8 +1,9 @@
+import componentor.mixins
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
-
-from .forms import PartCreateAndUpdateForm, PartSearchForm
-from .models import Part
+from parts.forms import PartCreateAndUpdateForm, PartSearchForm
+from parts.models import Part
 
 
 class PartListView(generic.ListView):
@@ -33,13 +34,14 @@ class PartDetailView(generic.DetailView):
     template_name = 'parts/part_detail.html'
 
 
-class PartCreateView(generic.CreateView):
+class PartCreateView(SuccessMessageMixin, generic.CreateView):
     """Generic class-based view for creating part."""
 
     model = Part
     template_name = 'parts/part_form.html'
     form_class = PartCreateAndUpdateForm
     success_url = reverse_lazy('parts:part_list')
+    success_message = 'The part successfully created'
     extra_context = {
         'header': 'Part create',
         'title': 'Part create',
@@ -47,23 +49,32 @@ class PartCreateView(generic.CreateView):
     }
 
 
-class PartUpdateView(generic.UpdateView):
+class PartUpdateView(SuccessMessageMixin, generic.UpdateView):
     """Generic class-based view for updating part."""
 
     model = Part
     template_name = 'parts/part_form.html'
     form_class = PartCreateAndUpdateForm
-    success_url = reverse_lazy('parts:part_list')
+    success_message = 'The part successfully updated'
     extra_context = {
         'header': 'Part update',
         'title': 'Part update',
         'button': 'Update',
     }
 
+    def get_success_url(self):
+        part_id = self.object.pk
+        return reverse_lazy(
+            'parts:part_detail', kwargs={'pk': part_id}
+        )
 
-class PartDeleteView(generic.DeleteView):
+
+class PartDeleteView(componentor.mixins.DeletionProtectionMixin,
+                     generic.DeleteView):
     """Generic class-based view for deleting part."""
 
     model = Part
     template_name = 'parts/part_delete.html'
     success_url = reverse_lazy('parts:part_list')
+    success_message = 'The part successfully deleted'
+    error_message = "Can't delete part because it's in use"

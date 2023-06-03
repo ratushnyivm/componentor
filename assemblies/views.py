@@ -1,6 +1,7 @@
 import materials.models
 from assemblies import forms
 from assemblies.models import Assembly
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -10,6 +11,9 @@ class AssemblyInline:
     form_class = forms.AssemblyCreateAndUpdateForm
     model = Assembly
     template_name = 'assemblies/assembly_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('assemblies:assembly_list')
 
     def form_valid(self, form):
         named_formsets = self.get_named_formsets()
@@ -24,7 +28,7 @@ class AssemblyInline:
                 formset_save_func(formset)
             else:
                 formset.save()
-        return redirect('assemblies:assembly_list')
+        return redirect(self.get_success_url())
 
     def formset_parts_valid(self, formset):
         parts = formset.save(commit=False)
@@ -36,8 +40,12 @@ class AssemblyInline:
             part.save()
 
 
-class AssemblyCreateView(AssemblyInline, generic.CreateView):
+class AssemblyCreateView(SuccessMessageMixin,
+                         AssemblyInline,
+                         generic.CreateView):
     """Generic class-based view for creating assembly."""
+
+    success_message = 'The assembly successfully created'
 
     def get_context_data(self, **kwargs):
         context = super(AssemblyCreateView, self).get_context_data(**kwargs)
@@ -63,8 +71,18 @@ class AssemblyCreateView(AssemblyInline, generic.CreateView):
             }
 
 
-class AssemblyUpdateView(AssemblyInline, generic.UpdateView):
+class AssemblyUpdateView(SuccessMessageMixin,
+                         AssemblyInline,
+                         generic.UpdateView):
     """Generic class-based view for updating assembly."""
+
+    success_message = 'The assembly successfully updated'
+
+    def get_success_url(self):
+        assembly_id = self.object.pk
+        return reverse_lazy(
+            'assemblies:assembly_detail', kwargs={'pk': assembly_id}
+        )
 
     def get_context_data(self, **kwargs):
         context = super(AssemblyUpdateView, self).get_context_data(**kwargs)
@@ -134,9 +152,10 @@ class AssemblyDetailView(generic.DetailView):
         return context
 
 
-class AssemblyDeleteView(generic.DeleteView):
+class AssemblyDeleteView(SuccessMessageMixin, generic.DeleteView):
     """Generic class-based view for deleting assembly."""
 
     model = Assembly
     template_name = 'assemblies/assembly_delete.html'
     success_url = reverse_lazy('assemblies:assembly_list')
+    success_message = 'The assembly successfully deleted'

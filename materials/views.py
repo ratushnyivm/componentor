@@ -1,3 +1,5 @@
+import componentor.mixins
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from materials.forms import MaterialCreateAndUpdateForm, MaterialSearchForm
@@ -31,13 +33,14 @@ class MaterialDetailView(generic.DetailView):
     template_name = 'materials/material_detail.html'
 
 
-class MaterialCreateView(generic.CreateView):
+class MaterialCreateView(SuccessMessageMixin, generic.CreateView):
     """Generic class-based view for creating material."""
 
     model = Material
     template_name = 'materials/material_form.html'
     form_class = MaterialCreateAndUpdateForm
     success_url = reverse_lazy('materials:material_list')
+    success_message = 'The material successfully created'
     extra_context = {
         'header': 'Material create',
         'title': 'Material create',
@@ -45,23 +48,32 @@ class MaterialCreateView(generic.CreateView):
     }
 
 
-class MaterialUpdateView(generic.UpdateView):
+class MaterialUpdateView(SuccessMessageMixin, generic.UpdateView):
     """Generic class-based view for updating material."""
 
     model = Material
     template_name = 'materials/material_form.html'
     form_class = MaterialCreateAndUpdateForm
-    success_url = reverse_lazy('materials:material_list')
+    success_message = 'The material successfully updated'
     extra_context = {
         'header': 'Material update',
         'title': 'Material update',
         'button': 'Update',
     }
 
+    def get_success_url(self):
+        material_id = self.object.pk
+        return reverse_lazy(
+            'materials:material_detail', kwargs={'pk': material_id}
+        )
 
-class MaterialDeleteView(generic.DeleteView):
+
+class MaterialDeleteView(componentor.mixins.DeletionProtectionMixin,
+                         generic.DeleteView):
     """Generic class-based view for deleting material."""
 
     model = Material
     template_name = 'materials/material_delete.html'
     success_url = reverse_lazy('materials:material_list')
+    success_message = 'The material successfully deleted'
+    error_message = "Can't delete material because it's in use"
