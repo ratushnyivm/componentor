@@ -12,12 +12,12 @@ urlpatterns = [
         name='material_detail'
     ),
     path(
-        '<int:pk>/update',
+        '<int:pk>/update/',
         views.MaterialUpdateView.as_view(),
         name='material_update'
     ),
     path(
-        '<int:pk>/delete',
+        '<int:pk>/delete/',
         views.MaterialDeleteView.as_view(),
         name='material_delete'
     ),

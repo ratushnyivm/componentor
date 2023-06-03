@@ -12,12 +12,12 @@ urlpatterns = [
         '<int:pk>/', views.AssemblyDetailView.as_view(), name='assembly_detail'
     ),
     path(
-        '<int:pk>/update',
+        '<int:pk>/update/',
         views.AssemblyUpdateView.as_view(),
         name='assembly_update'
     ),
     path(
-        '<int:pk>/delete',
+        '<int:pk>/delete/',
         views.AssemblyDeleteView.as_view(),
         name='assembly_delete'
     ),

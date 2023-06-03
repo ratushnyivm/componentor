@@ -24,7 +24,7 @@ class AssemblyInline:
 
         for name, formset in named_formsets.items():
             formset_save_func = getattr(self, f'formset_{name}_valid', None)
-            if formset_save_func is not None:
+            if formset_save_func:
                 formset_save_func(formset)
             else:
                 formset.save()

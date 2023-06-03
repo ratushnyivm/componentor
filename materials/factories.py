@@ -7,7 +7,7 @@ factory_en = Factory.create()
 
 class MaterialFactory(factory.django.DjangoModelFactory):
 
-    name = factory.Sequence(lambda n: f'Material_{factory_en.word()}{n}')
+    name = factory.Sequence(lambda n: f'Material {factory_en.word()}{n}')
     density = factory.Sequence(lambda d: factory_en.random_number(digits=5))
 
     class Meta:

@@ -8,9 +8,9 @@ urlpatterns = [
     path('create/', views.PartCreateView.as_view(), name='part_create'),
     path('<int:pk>/', views.PartDetailView.as_view(), name='part_detail'),
     path(
-        '<int:pk>/update', views.PartUpdateView.as_view(), name='part_update'
+        '<int:pk>/update/', views.PartUpdateView.as_view(), name='part_update'
     ),
     path(
-        '<int:pk>/delete', views.PartDeleteView.as_view(), name='part_delete'
+        '<int:pk>/delete/', views.PartDeleteView.as_view(), name='part_delete'
     ),
 ]
