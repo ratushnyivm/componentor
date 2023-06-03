@@ -15,11 +15,13 @@
       <!--Material name-->
       <div class="form-floating mb-3">
         {% if form.name.errors %}
-          <input type="text" class="form-control is-invalid" placeholder='Material name' name="name" value="{{ form.name.value }}" required>
+          <input type="text" class="form-control is-invalid" placeholder='Material name'
+                 name="name" value="{{ form.name.value }}" required>
           <label>{{ form.name.label_tag }}</label>
           <div class="invalid-feedback">{{ form.name.errors }}</div>
         {% else %}
-          <input type="text" class="form-control" placeholder='Material name' name="name" value="{{ material.name }}" required>
+          <input type="text" class="form-control" placeholder='Material name'
+                 name="name" value="{{ material.name }}" required>
           <label>{{ form.name.label_tag }}</label>
           <div class="form-text">{{ form.name.help_text }}</div>
         {% endif %}
@@ -28,11 +30,13 @@
       <!--Material density-->
       <div class="form-floating mb-3">
         {% if form.density.errors %}
-          <input type="number" class="form-control is-invalid" placeholder='Material density' name="density" value="{{ form.density.value }}">
+          <input type="number" class="form-control is-invalid" placeholder='Material density'
+                 name="density" value="{{ form.density.value }}">
           <label>{{ form.density.label_tag }}</label>
           <div class="invalid-feedback">{{ form.density.errors }}</div>
         {% else %}
-          <input type="number" class="form-control" placeholder='Material density' name="density" value="{{ material.density }}">
+          <input type="number" class="form-control" placeholder='Material density'
+                 name="density" value="{{ material.density }}">
           <label>{{ form.density.label_tag }}</label>
           <div class="form-text">{{ form.density.help_text }}</div>
         {% endif %}
@@ -40,18 +44,23 @@
 
       <!--Buttons-->
       {% if material.id %}
-        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'materials:material_detail' material.id %}" role="button">
+        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+           style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+           href="{% url 'materials:material_detail' material.id %}" role="button">
           <i class="bi bi-arrow-left-square mb-2"></i> Back
         </a>
       {% else %}
-        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'materials:material_list' %}" role="button">
+        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+           style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+           href="{% url 'materials:material_list' %}" role="button">
           <i class="bi bi-arrow-left-square mb-2"></i> Back
         </a>
       {% endif %}
       <button class="btn btn-outline-dark" type="reset">
         <i class="bi bi-x-square mb-2"></i> Clear
       </button>
-      <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
+      <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+              style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
         {{ button }} <i class="bi bi-arrow-right-square mb-2"></i>
       </button>
 

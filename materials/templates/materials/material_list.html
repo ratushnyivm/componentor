@@ -10,7 +10,8 @@
     <h1 class="display-6 my-3">Materials</h1>
 
     <div class="container px-0 mb-4">
-      <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'materials:material_create' %}" role="button">
+      <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+         style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'materials:material_create' %}" role="button">
         <i class="bi bi-plus-square mb-2"></i> Add new material
       </a>
     </div>
@@ -18,11 +19,15 @@
     <form role="search" method="get">
       <div class="d-flex mb-4">
         {% if form.name.value %}
-          <input class="form-control flex-grow-1 me-2" type="search" name="name" placeholder="{{ form.name.label }}" aria-label="Search" value="{{ form.name.value }}">
+          <input class="form-control flex-grow-1 me-2" type="search" name="name"
+                 placeholder="{{ form.name.label }}" aria-label="Search"
+                 value="{{ form.name.value }}">
         {% else %}
-          <input class="form-control flex-grow-1 me-2" type="search" name="name" placeholder="{{ form.name.label }}" aria-label="Search">
+          <input class="form-control flex-grow-1 me-2" type="search" name="name"
+                 placeholder="{{ form.name.label }}" aria-label="Search">
         {% endif %}
-        <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" type="submit">
+        <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+                style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" type="submit">
           <i class="bi bi-search mb-2"></i> Search
         </button>
       </div>
@@ -49,7 +54,9 @@
               <tr>
                 <td>{{ material.id }}</td>
                 <td style="--bs-link-color-rgb: 0, 0, 0;">
-                  <a class="icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-link-hover-color-rgb: 10, 140, 25;" href="{% url 'materials:material_detail' material.id %}">
+                  <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
+                     style="--bs-link-hover-color-rgb: 10, 140, 25;"
+                     href="{% url 'materials:material_detail' material.id %}">
                     {{ material.name }} <i class="bi bi-info-square mb-2"></i>
                   </a>
                 </td>

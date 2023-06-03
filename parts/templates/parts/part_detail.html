@@ -18,12 +18,16 @@
                 <h2>{{ part.designation }} - {{ part.name }}</h2>
               </div>
               <div class="col-xxl-1 mb-1">
-                <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_update' part.id %}" role="button">
+                <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+                   style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+                   href="{% url 'parts:part_update' part.id %}" role="button">
                   <i class="bi bi-clipboard-plus mb-2"></i> Update
                 </a>
               </div>
               <div class="col-xxl-1 mb-1">
-                <a class="btn btn-outline-danger icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_delete' part.id %}" role="button">
+                <a class="btn btn-outline-danger icon-link icon-link-hover link-underline link-underline-opacity-0"
+                   style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+                   href="{% url 'parts:part_delete' part.id %}" role="button">
                   <i class="bi bi-clipboard-x mb-2"></i> Delete
                 </a>
               </div>
@@ -44,7 +48,9 @@
             <div class="row p-1 border-bottom">
               <div class="col">Material</div>
               <div class="col" style="--bs-link-color-rgb: 0, 0, 0;">
-                <a class="icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-link-hover-color-rgb: 10, 140, 25;" href="{% url 'materials:material_detail' part.material.id %}">
+                <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
+                   style="--bs-link-hover-color-rgb: 10, 140, 25;"
+                   href="{% url 'materials:material_detail' part.material.id %}">
                   {{ part.material }} <i class="bi bi-info-square mb-2"></i>
                 </a>
               </div>

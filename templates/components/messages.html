@@ -1,5 +1,4 @@
-
-  {% if messages %}
+{% if messages %}
   <div class="container mt-3">
     {% for message in messages %}
       {% if message.tags == 'success' %}
@@ -12,5 +11,5 @@
         </div>
       {% endif %}
     {% endfor %}
-    </div>
-  {% endif %}
+  </div>
+{% endif %}

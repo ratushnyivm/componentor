@@ -1,6 +1,7 @@
 import materials.models
 from assemblies import forms
 from assemblies.models import Assembly
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -11,6 +12,7 @@ class AssemblyInline:
     form_class = forms.AssemblyCreateAndUpdateForm
     model = Assembly
     template_name = 'assemblies/assembly_form.html'
+    success_message = 'The assembly successfully created'
 
     def get_success_url(self):
         return reverse_lazy('assemblies:assembly_list')
@@ -28,6 +30,8 @@ class AssemblyInline:
                 formset_save_func(formset)
             else:
                 formset.save()
+
+        messages.success(self.request, self.success_message)
         return redirect(self.get_success_url())
 
     def formset_parts_valid(self, formset):
@@ -40,12 +44,8 @@ class AssemblyInline:
             part.save()
 
 
-class AssemblyCreateView(SuccessMessageMixin,
-                         AssemblyInline,
-                         generic.CreateView):
+class AssemblyCreateView(AssemblyInline, generic.CreateView):
     """Generic class-based view for creating assembly."""
-
-    success_message = 'The assembly successfully created'
 
     def get_context_data(self, **kwargs):
         context = super(AssemblyCreateView, self).get_context_data(**kwargs)
@@ -71,12 +71,8 @@ class AssemblyCreateView(SuccessMessageMixin,
             }
 
 
-class AssemblyUpdateView(SuccessMessageMixin,
-                         AssemblyInline,
-                         generic.UpdateView):
+class AssemblyUpdateView(AssemblyInline, generic.UpdateView):
     """Generic class-based view for updating assembly."""
-
-    success_message = 'The assembly successfully updated'
 
     def get_success_url(self):
         assembly_id = self.object.pk

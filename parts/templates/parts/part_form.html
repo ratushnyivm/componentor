@@ -15,11 +15,13 @@
       <!--Part designation-->
       <div class="form-floating mb-3">
         {% if form.designation.errors %}
-          <input type="text" class="form-control is-invalid" placeholder='Designation' name="designation" value="{{ form.designation.value }}" required>
+          <input type="text" class="form-control is-invalid" placeholder='Designation'
+                 name="designation" value="{{ form.designation.value }}" required>
           <label>{{ form.designation.label_tag }}</label>
           <div class="invalid-feedback">{{ form.designation.errors }}</div>
         {% else %}
-          <input type="text" class="form-control" placeholder='Designation' name="designation" value="{{ part.designation }}" required>
+          <input type="text" class="form-control" placeholder='Designation'
+                 name="designation" value="{{ part.designation }}" required>
           <label>{{ form.designation.label_tag }}</label>
           <div class="form-text">{{ form.designation.help_text }}</div>
         {% endif %}
@@ -28,11 +30,13 @@
       <!--Part name-->
       <div class="form-floating mb-3">
         {% if form.name.errors %}
-          <input type="text" class="form-control is-invalid" placeholder='Name' name="name" value="{{ form.name.value }}" required>
+          <input type="text" class="form-control is-invalid" placeholder='Name'
+                 name="name" value="{{ form.name.value }}" required>
           <label>{{ form.name.label_tag }}</label>
           <div class="invalid-feedback">{{ form.name.errors }}</div>
         {% else %}
-          <input type="text" class="form-control" placeholder='Name' name="name" value="{{ part.name }}" required>
+          <input type="text" class="form-control" placeholder='Name'
+                 name="name" value="{{ part.name }}" required>
           <label>{{ form.name.label_tag }}</label>
           <div class="form-text">{{ form.name.help_text }}</div>
         {% endif %}
@@ -67,18 +71,23 @@
 
       <!--Buttons-->
       {% if part.id %}
-        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_detail' part.id %}" role="button">
+        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+           style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+           href="{% url 'parts:part_detail' part.id %}" role="button">
           <i class="bi bi-arrow-left-square mb-2"></i> Back
         </a>
       {% else %}
-        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_list' %}" role="button">
+        <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+           style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+           href="{% url 'parts:part_list' %}" role="button">
           <i class="bi bi-arrow-left-square mb-2"></i> Back
         </a>
       {% endif %}
       <button class="btn btn-outline-dark" type="reset">
         <i class="bi bi-x-square mb-2"></i> Clear
       </button>
-      <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
+      <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+              style="--bs-icon-link-transform: translate3d(.125rem, 0, 0);" type="submit">
         {{ button }} <i class="bi bi-arrow-right-square mb-2"></i>
       </button>
 

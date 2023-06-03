@@ -1,11 +1,11 @@
 from http import HTTPStatus
 
+import parts.factories
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 from materials import factories
 from materials.models import Material
-from django.core.exceptions import ObjectDoesNotExist
-import parts.factories
 
 
 class MaterialListViewTest(TestCase):

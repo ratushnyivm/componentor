@@ -10,7 +10,9 @@
     <h1 class="display-6 my-3">Parts</h1>
 
     <div class="container px-0 mb-4">
-      <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" href="{% url 'parts:part_create' %}" role="button">
+      <a class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+         style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);"
+         href="{% url 'parts:part_create' %}" role="button">
         <i class="bi bi-plus-square mb-2"></i> Add new part
       </a>
     </div>
@@ -18,11 +20,15 @@
     <form role="search" method="get">
       <div class="d-flex mb-4">
         {% if form.search_query.value %}
-          <input class="form-control flex-grow-1 me-2" type="search" name="search_query" placeholder="{{ form.search_query.label }}" aria-label="Search" value="{{ form.search_query.value }}">
+          <input class="form-control flex-grow-1 me-2" type="search" name="search_query"
+                 placeholder="{{ form.search_query.label }}" aria-label="Search"
+                 value="{{ form.search_query.value }}">
         {% else %}
-          <input class="form-control flex-grow-1 me-2" type="search" name="search_query" placeholder="{{ form.search_query.label }}" aria-label="Search">
+          <input class="form-control flex-grow-1 me-2" type="search" name="search_query"
+                 placeholder="{{ form.search_query.label }}" aria-label="Search">
         {% endif %}
-        <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" type="submit">
+        <button class="btn btn-outline-dark icon-link icon-link-hover link-underline link-underline-opacity-0"
+                style="--bs-icon-link-transform: translate3d(-.125rem, 0, 0);" type="submit">
           <i class="bi bi-search mb-2"></i> Search
         </button>
       </div>
@@ -48,7 +54,9 @@
               <tr>
                 <td>{{ part.id }}</td>
                 <td style="--bs-link-color-rgb: 0, 0, 0;">
-                  <a class="icon-link icon-link-hover link-underline link-underline-opacity-0" style="--bs-link-hover-color-rgb: 10, 140, 25;" href="{% url 'parts:part_detail' part.id %}">
+                  <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
+                     style="--bs-link-hover-color-rgb: 10, 140, 25;"
+                     href="{% url 'parts:part_detail' part.id %}">
                     {{ part.designation }} <i class="bi bi-info-square mb-2"></i>
                   </a>
                 </td>
