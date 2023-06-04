@@ -41,8 +41,7 @@
 
           <thead class="table-secondary">
             <tr>
-              <th>ID</th>
-              <th>Designation</th>
+              <th class="ps-3">Designation</th>
               <th>Name</th>
               <th>Creation date</th>
               <th>Date of change</th>
@@ -52,8 +51,7 @@
           <tbody>
             {% for part in parts %}
               <tr>
-                <td>{{ part.id }}</td>
-                <td style="--bs-link-color-rgb: 0, 0, 0;">
+                <td class="ps-3" style="--bs-link-color-rgb: 0, 0, 0;">
                   <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
                      style="--bs-link-hover-color-rgb: 10, 140, 25;"
                      href="{% url 'parts:part_detail' part.id %}">

@@ -40,8 +40,8 @@
 
           <thead class="table-secondary">
             <tr>
-              <th>ID</th>
-              <th>Name</th>
+              <th class="ps-3">Name</th>
+              <th>Density, kg/m3</th>
               <th>Creation date</th>
               <th>Date of change</th>
             </tr>
@@ -52,13 +52,19 @@
               <!--Сделать всю строку ссылкой-->
               <!--<tr onclick="window.location.href='{% url 'materials:material_detail' material.id %}'; return false" style="cursor: pointer;">-->
               <tr>
-                <td>{{ material.id }}</td>
-                <td style="--bs-link-color-rgb: 0, 0, 0;">
+                <td class="ps-3" style="--bs-link-color-rgb: 0, 0, 0;">
                   <a class="icon-link icon-link-hover link-underline link-underline-opacity-0"
                      style="--bs-link-hover-color-rgb: 10, 140, 25;"
                      href="{% url 'materials:material_detail' material.id %}">
                     {{ material.name }} <i class="bi bi-info-square mb-2"></i>
                   </a>
+                </td>
+                <td>
+                  {% if material.density %}
+                    {{ material.density }}
+                  {% else %}
+                    undefined
+                  {% endif %}
                 </td>
                 <td>{{ material.created|date:"d.m.Y H:i" }}</td>
                 <td>{{ material.updated|date:"d.m.Y H:i" }}</td>

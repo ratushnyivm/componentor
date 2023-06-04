@@ -17,7 +17,7 @@ class MaterialCreateAndUpdateForm(forms.ModelForm):
         help_text='Material name can only contain letters, numbers and spaces.',
     )
     density = forms.IntegerField(
-        label='Material density',
+        label='Material density, kg/m3',
         help_text='Material density value must be positive integer.',
         required=False,
         min_value=0,
