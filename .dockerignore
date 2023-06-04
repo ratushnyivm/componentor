@@ -2,7 +2,8 @@
 .venv/
 __pycache__/
 htmlcov/
-
+.github/
+.gitignore
 .env
 .coverage
 *.sqlite3
