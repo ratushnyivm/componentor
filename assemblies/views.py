@@ -74,6 +74,8 @@ class AssemblyCreateView(AssemblyInline, generic.CreateView):
 class AssemblyUpdateView(AssemblyInline, generic.UpdateView):
     """Generic class-based view for updating assembly."""
 
+    success_message = 'The assembly successfully updated'
+
     def get_success_url(self):
         assembly_id = self.object.pk
         return reverse_lazy(
