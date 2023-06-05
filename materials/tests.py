@@ -45,14 +45,12 @@ class MaterialListViewTest(TestCase):
         self.assertNotIn(self.material3, material_list)
 
 
-class MaterialDetailView(TestCase):
+class MaterialDetailViewTest(TestCase):
     """Test case for the MaterialDetailView."""
 
     def setUp(self) -> None:
         self.client = Client()
-        self.material1 = factories.MaterialFactory(name='material_1')
-        self.material2 = factories.MaterialFactory(name='material_2')
-        self.material3 = factories.MaterialFactory(name='material_3')
+        self.material = factories.MaterialFactory(name='material_1')
 
     def test_view_url_exists_at_desired_location(self) -> None:
         response = self.client.get('/materials/1/')
@@ -76,13 +74,13 @@ class MaterialDetailView(TestCase):
             'materials:material_detail', args=[1])
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertContains(response, self.material1.name)
-        self.assertContains(response, self.material1.density)
+        self.assertContains(response, self.material.name)
+        self.assertContains(response, self.material.density)
         self.assertContains(
-            response, self.material1.created.strftime("%d.%m.%Y %H:%M")
+            response, self.material.created.strftime("%d.%m.%Y %H:%M")
         )
         self.assertContains(
-            response, self.material1.updated.strftime("%d.%m.%Y %H:%M")
+            response, self.material.updated.strftime("%d.%m.%Y %H:%M")
         )
 
     def test_view_has_links_to_update_and_delete(self) -> None:
@@ -90,8 +88,12 @@ class MaterialDetailView(TestCase):
             'materials:material_detail', args=[1])
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertContains(response, '/materials/1/update/')
-        self.assertContains(response, '/materials/1/delete/')
+        self.assertContains(
+            response, reverse('materials:material_update', args=[1])
+        )
+        self.assertContains(
+            response, reverse('materials:material_delete', args=[1])
+        )
 
 
 class MaterialCreateViewTest(TestCase):
@@ -168,10 +170,11 @@ class MaterialCreateViewTest(TestCase):
         invalid_data = self.valid_data
 
         # numbers of invalid characters in ASCII table
-        invalid_set = set(range(33, 48)) | set(range(58, 65))
+        invalid_set = set(range(33, 48)) | set(range(58, 65)) | \
+            set(range(91, 97)) | set(range(123, 127))
 
         for i in invalid_set:
-            invalid_data['name'] = f'Steel{chr(i)}'
+            invalid_data['name'] = f'Steel {chr(i)}01'
 
             response = self.client.post(
                 reverse('materials:material_create'),
