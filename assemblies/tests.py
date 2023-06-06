@@ -120,7 +120,9 @@ class AssemblyCreateViewTest(TestCase):
         self.client = Client()
         self.valid_data = {
             'designation': '12345',
-            'name': 'adsadasd'
+            'name': 'Assembly',
+            'parts-TOTAL_FORMS': 0,
+            'parts-INITIAL_FORMS': 0
         }
 
     def test_view_url_exists_at_desired_location(self) -> None:
@@ -136,6 +138,22 @@ class AssemblyCreateViewTest(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'assemblies/assembly_form.html')
 
+    def test_create_assembly_with_valid_data(self) -> None:
+        response = self.client.post(
+            reverse('assemblies:assembly_create'),
+            self.valid_data,
+            follow=True
+        )
+        self.assertRedirects(response, reverse('assemblies:assembly_list'))
+
+        assembly = Assembly.objects.get(pk=1)
+        self.assertEqual(assembly.designation, self.valid_data['designation'])
+        self.assertEqual(assembly.name, self.valid_data['name'])
+
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(message.message, 'The assembly successfully created')
+        self.assertEqual(message.tags, 'success')
+
 
 class AssemblyUpdateViewTest(TestCase):
     """Test case for AssemblyUpdateView."""
@@ -143,6 +161,12 @@ class AssemblyUpdateViewTest(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.assembly = factories.AssemblyFactory()
+        self.valid_data = {
+            'designation': '12345',
+            'name': 'Assembly',
+            'parts-TOTAL_FORMS': 0,
+            'parts-INITIAL_FORMS': 0
+        }
 
     def test_view_url_exists_at_desired_location(self) -> None:
         response = self.client.get('/assemblies/1/update/')
@@ -160,6 +184,24 @@ class AssemblyUpdateViewTest(TestCase):
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'assemblies/assembly_form.html')
+
+    def test_update_assembly_with_valid_data(self) -> None:
+        response = self.client.post(
+            reverse('assemblies:assembly_update', args=[1]),
+            self.valid_data,
+            follow=True
+        )
+        self.assertRedirects(
+            response, reverse('assemblies:assembly_detail', args=[1])
+        )
+
+        assembly = Assembly.objects.get(pk=1)
+        self.assertEqual(assembly.designation, self.valid_data['designation'])
+        self.assertEqual(assembly.name, self.valid_data['name'])
+
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(message.message, 'The assembly successfully updated')
+        self.assertEqual(message.tags, 'success')
 
 
 class AssemblyDeleteViewTest(TestCase):
