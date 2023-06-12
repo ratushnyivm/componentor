@@ -1,16 +1,39 @@
 version: "3.8"
 
 services:
+  db:
+    image: postgres:15
+    container_name: componentor_postgres
+    volumes:
+      - ~/.pg/pg_data/componentor:/var/lib/postgresql/data
+    env_file:
+      - .env
+
   django:
     build:
       context: .
+    container_name: componentor_project
+    depends_on:
+      - db
+    volumes:
+      - static_volume:/usr/src/componentor/static
     env_file:
       - .env
     command: >
       sh -c "python /usr/src/componentor/manage.py makemigrations &&
       python manage.py migrate &&
       python /usr/src/componentor/manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/usr/src/componentor
     ports:
-      - 8000:8000
+      - "8000:8000"
+
+  nginx:
+    build:
+      context: ./etc/nginx/
+    container_name: componentor_nginx
+    volumes:
+      - static_volume:/usr/src/componentor/static
+    ports:
+      - "81:80"
+
+volumes:
+  static_volume:

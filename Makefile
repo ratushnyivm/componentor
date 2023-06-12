@@ -19,3 +19,6 @@ test-coverage:
 
 shell:
 	${MANAGE} shell
+
+requirements:
+	poetry export -f requirements.txt --without-hashes -o requirements.txt
