@@ -4,6 +4,8 @@ on: [push, pull_request]
 
 env:
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  DEBUG: ${{ secrets.DEBUG }}
+  DB_ENGINE: ${{ secrets.DB_ENGINE }}
   CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
 jobs:
