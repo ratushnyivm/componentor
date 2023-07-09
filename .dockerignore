@@ -4,7 +4,6 @@ __pycache__/
 htmlcov/
 .github/
 .gitignore
-.env
 .coverage
 *.sqlite3
 coverage.xml

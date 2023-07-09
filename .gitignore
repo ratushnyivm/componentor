@@ -3,7 +3,10 @@
 __pycache__/
 htmlcov/
 
-.env
 .coverage
 *.sqlite3
 coverage.xml
+
+.env.dev
+.env.prod
+.env.prod.db

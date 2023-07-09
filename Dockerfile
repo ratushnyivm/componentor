@@ -1,14 +1,21 @@
-FROM python:3.11.2
+FROM python:3.11-alpine
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+WORKDIR /usr/src/componentor
 
-WORKDIR /usr/src/componentor/
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt /usr/src
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
 
-RUN pip install -r /usr/src/requirements.txt
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY . /usr/src/componentor/
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /usr/src/componentor/entrypoint.sh
+RUN chmod +x /usr/src/componentor/entrypoint.sh
 
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+COPY . /usr/src/componentor
+
+ENTRYPOINT ["/usr/src/componentor/entrypoint.sh"]
