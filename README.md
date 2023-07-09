@@ -12,7 +12,7 @@
 
 ## Demo
 
-The demo version is available at http://158.160.37.105:8000/
+The demo version is available at http://195.133.146.77/
 
 ---
 
